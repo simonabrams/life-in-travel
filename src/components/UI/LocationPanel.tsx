@@ -23,6 +23,11 @@ export function LocationPanel() {
 
   const description = edit.description ?? stop.description ?? '';
 
+  // Chronological neighbours (STOPS is ordered by time).
+  const index = STOPS.findIndex((s) => s.id === stop.id);
+  const prev = index > 0 ? STOPS[index - 1] : null;
+  const next = index < STOPS.length - 1 ? STOPS[index + 1] : null;
+
   return (
     <aside
       ref={panelRef}
@@ -69,6 +74,33 @@ export function LocationPanel() {
       )}
 
       {editMode && <EditPanel stopId={stop.id} fallbackDescription={stop.description ?? ''} />}
+
+      <nav className="panel__nav" aria-label="Navigate places chronologically">
+        <button
+          className="panel__nav-btn"
+          onClick={() => prev && select(prev.id)}
+          disabled={!prev}
+          aria-label={prev ? `Previous: ${prev.city}` : 'No earlier place'}
+        >
+          <span className="panel__nav-arrow" aria-hidden>‹</span>
+          <span className="panel__nav-text">
+            <span className="panel__nav-label">Earlier</span>
+            <span className="panel__nav-city">{prev ? prev.city : '—'}</span>
+          </span>
+        </button>
+        <button
+          className="panel__nav-btn panel__nav-btn--next"
+          onClick={() => next && select(next.id)}
+          disabled={!next}
+          aria-label={next ? `Next: ${next.city}` : 'No later place'}
+        >
+          <span className="panel__nav-text">
+            <span className="panel__nav-label">Later</span>
+            <span className="panel__nav-city">{next ? next.city : '—'}</span>
+          </span>
+          <span className="panel__nav-arrow" aria-hidden>›</span>
+        </button>
+      </nav>
     </aside>
   );
 }

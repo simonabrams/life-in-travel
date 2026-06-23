@@ -12,6 +12,15 @@ export const ATMO_COLOR = new THREE.Color('#3aa0ff');
 export const CAMERA_REST_Z = 3.2;
 export const CAMERA_FOCUS_Z = 2.35;
 
+/** Zoom (camera distance) limits — keep clear of the globe surface and the
+ *  atmosphere shell at the near end, and from drifting too far at the far end. */
+export const MIN_ZOOM = 1.55;
+export const MAX_ZOOM = 6;
+
+/** How far the globe may tilt up/down. Stopping short of the pole keeps the
+ *  continents upright and avoids flipping the world over. */
+export const MAX_PITCH = THREE.MathUtils.degToRad(80);
+
 /** Compute the sun direction in view space for the current camera. */
 const _sun = new THREE.Vector3();
 export function sunInViewSpace(camera: THREE.Camera): THREE.Vector3 {

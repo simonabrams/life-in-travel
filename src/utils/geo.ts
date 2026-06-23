@@ -20,11 +20,20 @@ export function latLngToVector3(lat: number, lng: number, radius: number): THREE
 }
 
 /**
- * The quaternion to apply to the globe group so that the given lat/lng faces the
- * camera (world +Z). Used to "front" a location during a focus transition.
+ * The yaw (about world Y) and pitch (about world X) that bring the given
+ * lat/lng to face the camera (world +Z) while keeping the continents upright.
+ *
+ * The globe's orientation is always composed as `Ry(yaw) * Rx(pitch)` with no
+ * roll, so north stays up. Solving `Ry(yaw)·Rx(pitch)·p = +Z` for the unit
+ * surface point `p` yields the closed form below.
  */
-export function quaternionFacingCamera(lat: number, lng: number): THREE.Quaternion {
-  const local = latLngToVector3(lat, lng, 1).normalize();
-  const forward = new THREE.Vector3(0, 0, 1);
-  return new THREE.Quaternion().setFromUnitVectors(local, forward);
+export function orientationFacingCamera(
+  lat: number,
+  lng: number,
+): { yaw: number; pitch: number } {
+  const p = latLngToVector3(lat, lng, 1).normalize();
+  const h = Math.sqrt(p.y * p.y + p.z * p.z);
+  const pitch = Math.atan2(p.y, p.z);
+  const yaw = Math.atan2(-p.x, h);
+  return { yaw, pitch };
 }

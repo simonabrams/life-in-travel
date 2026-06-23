@@ -568,6 +568,97 @@ label.btn--small {
   line-height: 1.5;
 }
 
+/* ----------------------------------------------------------- Zoom UI */
+.zoom {
+  position: absolute;
+  left: clamp(14px, 2.5vw, 28px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.zoom__btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--glass);
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: border-color 0.2s, background 0.2s, transform 0.1s;
+}
+.zoom__btn:hover {
+  border-color: rgba(90, 216, 255, 0.6);
+  background: var(--cyan-soft);
+}
+.zoom__btn:active {
+  transform: scale(0.94);
+}
+
+/* -------------------------------------------------------- Panel nav */
+.panel__nav {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.panel__nav-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--font-display);
+  transition: border-color 0.2s, background 0.2s;
+  min-width: 0;
+}
+.panel__nav-btn--next {
+  justify-content: flex-end;
+  text-align: right;
+}
+.panel__nav-btn:hover:not(:disabled) {
+  border-color: var(--cyan);
+  background: var(--cyan-soft);
+}
+.panel__nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.panel__nav-arrow {
+  font-size: 22px;
+  line-height: 1;
+  color: var(--cyan);
+}
+.panel__nav-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.panel__nav-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-dim);
+}
+.panel__nav-city {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* --------------------------------------------------------- Responsive */
 @media (max-width: 720px) {
   .header {
@@ -598,6 +689,10 @@ label.btn--small {
   .intro {
     bottom: 140px;
     padding: 0 20px;
+  }
+  /* Pinch handles zoom on touch; the buttons would clash with the bottom sheet. */
+  .zoom {
+    display: none;
   }
 }
 

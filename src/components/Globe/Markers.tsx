@@ -123,10 +123,12 @@ function Marker({ group }: { group: LocationGroup }) {
       </Billboard>
 
       {active && (
+        // No `distanceFactor`: the label renders at a constant screen size so
+        // it stays crisp at any zoom (distanceFactor scales the DOM in 3D,
+        // which rasterises then upscales → the pixelation we want to avoid).
         <Html
           center
-          distanceFactor={6}
-          position={[0, 0.06, 0]}
+          position={[0, 0.045, 0]}
           style={{ pointerEvents: 'none' }}
           zIndexRange={[20, 0]}
         >
